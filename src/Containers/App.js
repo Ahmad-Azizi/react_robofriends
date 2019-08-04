@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {setSearchField} from '../actions';
+import {setSearchField, requestRobots} from '../actions';
 import React, {Component} from 'react';
 import CardList from '../Components/CardList';
 import SearchBox from '../Components/SearchBox';
@@ -10,25 +10,29 @@ import './App.css';
 //map state to props from reducers
 const mapStateToProps = state => {
     return {
-        searchField: state.searchField
+        searchField: state.searchRobots.searchField,
+        robots: state.requestRobots.robots,
+        isPending: state.requestRobots.isPending,
+        error: state.requestRobots.error
     }
 }
  //to trigger an action
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+        onRequestRobots: () => dispatch(requestRobots())
     }
 }
 
 class App extends Component{
 
-    constructor(){
-        super();
-        this.state = {
-            Robot: []
-            //,Searchfield: ''
-        }
-    }
+    // constructor(){
+    //     super();
+    //     this.state = {
+    //         Robot: []
+    //         //,Searchfield: ''
+    //     }
+    // }
 
     // onSearchChange = (event) => {
     //     this.setState({Searchfield: event.target.value});
@@ -36,26 +40,28 @@ class App extends Component{
     
     componentDidMount(){
         //console.log(this.props.store.getState());
-        fetch('https://jsonplaceholder.typicode.com/users')
-        .then(response => {
-            return response.json();
-        })
-        .then(users => {
-            this.setState({Robot: users});
-        })
+        // fetch('https://jsonplaceholder.typicode.com/users')
+        // .then(response => {
+        //     return response.json();
+        // })
+        // .then(users => {
+        //     this.setState({Robot: users});
+        // })
+
+        this.props.onRequestRobots();
     }
 
     render(){
         //const {Robot, Searchfield} = this.state;
-        const {Robot} = this.state;
-        const {searchField, onSearchChange} = this.props;
-        const filteredRobot = Robot.filter(Robot => {
+        // const {Robot} = this.state;
+        const {searchField, onSearchChange, robots, isPending, error} = this.props;
+        const filteredRobot = robots.filter(robot => {
             // return Robot.name.toLowerCase().includes(Searchfield.toLowerCase());
-            return Robot.name.toLowerCase().includes(searchField.toLowerCase());
+            return robot.name.toLowerCase().includes(searchField.toLowerCase());
         })
         //if API takes time to load, display loading bar...
         //return !Robot.length ?
-        return Robot.length === 0 ?
+        return robots.length === 0 ?
         (<h1 className='tc pa3 ma3'>LOADING</h1>) :
         ( 
         <div className='tc'>
