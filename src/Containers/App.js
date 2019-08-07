@@ -61,8 +61,8 @@ class App extends Component{
         })
         //if API takes time to load, display loading bar...
         //return !Robot.length ?
-        return robots.length === 0 ?
-        (<h1 className='tc pa3 ma3'>LOADING</h1>) :
+        return isPending ?
+    (<h1 className='tc pa3 ma3'>{`LOADING... ${error}`}</h1>) :
         ( 
         <div className='tc'>
             <h1 className='f1'>RoboFriends</h1>
