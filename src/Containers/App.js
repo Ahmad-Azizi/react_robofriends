@@ -7,7 +7,7 @@ import Scroll from '../Components/Scroll';
 import ErrorBoundry from '../Components/ErrorBoundry';
 import './App.css';
 
-//map state to props from reducers
+//map state to props from reducers (this.props)
 const mapStateToProps = state => {
     return {
         searchField: state.searchRobots.searchField,

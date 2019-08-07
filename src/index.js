@@ -10,7 +10,7 @@ import App from './Containers/App';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
 
-//for middleware
+//for middleware (thunk and logger)
 const logger = createLogger();
 const rootReducer = combineReducers({searchRobots, requestRobots});
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
